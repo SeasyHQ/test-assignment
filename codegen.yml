@@ -9,11 +9,16 @@ config:
   #   Date: string
   #   Time24H: string
   #   Money: string
-  # mappers:
-  #   Marina: ./GeneratedDb#Marina as MarinaDb
+  mappers:
+    Amenity: ./GeneratedDb#amenityDb
+    Marina: ./GeneratedDb#marinaDb
+    City: ./GeneratedDb#cityDb
+    Country: ./GeneratedDb#countryDb
+    Photo: ./GeneratedDb#photoDb
+    MarinaAndAmenity: ./GeneratedDb#marinAndAmenityDb
 
 generates:
-  src/types/Generated.ts:
+  src/types/GeneratedGql.ts:
     plugins:
       - typescript
       - typescript-resolvers

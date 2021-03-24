@@ -9,6 +9,15 @@
     "node": "14",
     "yarn": "1"
   },
+  "scripts": {
+    "clean": "rimraf dist",
+    "sql2ts": "sql-ts -c ./sql2ts.json",
+    "generate": "graphql-codegen",
+    "start": "run-s clean && run-p babel:dev run:dev",
+    "run:dev": "cross-env nodemon --trace-warnings --watch dist/ --delay 1000ms -r dotenv-safe/config dist",
+    "babel:dev": "babel src -d dist --extensions '.ts' --watch --source-maps inline",
+    "types": "cross-env CI=true NODE_ENV=production tsc --noEmit"
+  },
   "dependencies": {
     "@babel/runtime": "^7.13.10",
     "@koa/cors": "^3.1.0",

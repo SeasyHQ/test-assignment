@@ -1,0 +1,13 @@
+{
+  "client": "sqlite",
+  "connection": {
+    "filename": "./seasy.db"
+  },
+  "filename": "GeneratedDb",
+  "folder": "src/types",
+  "excludedTables": ["main.migrations"],
+  "interfaceNameFormat": "${table}Db",
+  "tableNameCasing": "camel",
+  "columnNameCasing": "camel",
+  "template": "./sql2ts.handlebars"
+}
