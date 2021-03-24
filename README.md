@@ -11,8 +11,9 @@ to run each package, see their respective README and package.json
 
 ## use cases for frontend
 
-- feel free to use any component library (but if modifications are needed, styled-components is preferred)
-- aligned to screenshots design (desktop) as closely as possible
+- feel free to use any component library (we use mui)
+- if styling modifications are needed, styled-components is preferred, but i dont care if you dont use it
+- aligned to screenshots design (desktop) as closely as possible (see `package/fe/design`)
     - list of all marina with cards
     - marina detail page
 - if some data are missing from be, just fake them or add them
@@ -21,6 +22,7 @@ nice to have:
 
 - responsive (mobile version)
 - map (mapboxgl preferred)
+- simple ssr reactdom with `rendertostream` with `koa` (or `next.js` if you want to set it up)
 
 ## use cases for backend
 
