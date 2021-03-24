@@ -1,6 +1,8 @@
-# test-be-assignment
+# test-assignment
 
-## use cases
+## use cases for frontend
+
+## use cases for backend
 
 - query marinas, cities, countries, amenities, photos and their relevant properties
 - query all marinas in a city
