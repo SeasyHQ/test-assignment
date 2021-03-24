@@ -1,9 +1,0 @@
-{
-  "dev": {
-    "driver": "sqlite3",
-    "filename": "DATABASE_URL",
-    "ssl": false
-  },
-  "defaultEnv": "dev",
-  "sql-file": true
-}

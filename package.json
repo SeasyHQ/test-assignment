@@ -1,63 +1,21 @@
 {
-  "name": "test-be-assignment",
+  "name": "test-assignment",
+  "private": true,
   "version": "1.0.0",
-  "main": "dist/index.js",
-  "repository": "git@github.com:SeasyHQ/test-be-assignment.git",
+  "repository": "git@github.com:SeasyHQ/test-assignment.git",
   "author": "olso <olsansky.martin@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "bootstrap": "lerna bootstrap"
+  },
   "engines": {
     "node": "14",
     "yarn": "1"
   },
-  "scripts": {
-    "clean": "rimraf dist",
-    "sql2ts": "sql-ts -c ./sql2ts.json",
-    "generate": "graphql-codegen",
-    "start": "run-s clean && run-p babel:dev run:dev",
-    "run:dev": "cross-env nodemon --trace-warnings --watch dist/ --delay 1000ms -r dotenv-safe/config dist",
-    "babel:dev": "babel src -d dist --extensions '.ts' --watch --source-maps inline",
-    "types": "cross-env CI=true NODE_ENV=production tsc --noEmit"
-  },
-  "dependencies": {
-    "@babel/runtime": "^7.13.10",
-    "@koa/cors": "^3.1.0",
-    "apollo-server-koa": "^2.21.2",
-    "cross-env": "^7.0.3",
-    "dotenv-safe": "^8.2.0",
-    "graphql": "^15.5.0",
-    "graphql-middleware": "^6.0.4",
-    "graphql-relay": "^0.6.0",
-    "graphql-tools": "^7.0.4",
-    "knex": "^0.95.2",
-    "knex-stringcase": "^1.4.5",
-    "koa": "^2.13.1",
-    "sqlite": "^4.0.19",
-    "sqlite3": "^5.0.2",
-    "yup": "^0.32.9"
-  },
   "devDependencies": {
-    "@babel/cli": "^7.13.10",
-    "@babel/core": "^7.13.10",
-    "@babel/plugin-transform-runtime": "^7.13.10",
-    "@babel/preset-env": "^7.13.12",
-    "@babel/preset-typescript": "^7.13.0",
-    "@graphql-codegen/cli": "^1.21.3",
-    "@graphql-codegen/typescript": "^1.21.1",
-    "@graphql-codegen/typescript-resolvers": "^1.19.0",
-    "@rmp135/sql-ts": "^1.8.2",
-    "@types/dotenv-safe": "^8.1.1",
-    "@types/graphql": "^14.5.0",
-    "@types/graphql-relay": "^0.6.0",
-    "@types/koa": "^2.13.1",
-    "@types/node": "14",
-    "@types/sqlite3": "^3.1.7",
-    "babel-loader": "^8.2.2",
-    "db-migrate": "^0.11.12",
-    "db-migrate-sqlite3": "^0.4.0",
-    "madge": "^4.0.2",
-    "nodemon": "^2.0.7",
-    "npm-run-all": "^4.1.5",
-    "rimraf": "^3.0.2",
-    "typescript": "4.1.5"
-  }
+    "lerna": "^4.0.0"
+  },
+  "workspaces": [
+    "packages/*"
+  ]
 }

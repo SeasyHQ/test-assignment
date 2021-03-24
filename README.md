@@ -1,6 +1,24 @@
 # test-assignment
 
+## setup
+
+- `yarn`
+- `yarn bootstrap`
+- `cd` into specific package (TODO: add script to run packages from lerna root)
+
+to run each package, see their respective README and package.json
+
 ## use cases for frontend
+
+- feel free to use any component library (but if modifications are needed, styled-components is preferred)
+- aligned to screenshots design (desktop) as closely as possible
+    - list of all marina with cards
+    - marina detail page
+
+nice to have:
+
+- responsive (mobile)
+- map
 
 ## use cases for backend
 
@@ -14,23 +32,3 @@ nice to have:
 - account schema
 - authentication + authorization for add marina mutation
 - pagination
-
-## running
-
-- `yarn start`
-
-## gql types / codegen
-
-- `yarn codegen`
-
-## db types
-
-- `yarn sql2ts`
-
-## new migrations (if decided to go for nice to haves)
-
-Docs [here](https://db-migrate.readthedocs.io/en/latest/Getting%20Started/commands/)
-
-- run `node -r dotenv-safe/config node_modules/db-migrate/bin/db-migrate create <name> -v -e dev`
-- edit `migrations/sqls/<hash>-<name>.<up|down>.sql` files
-- run `node -r dotenv-safe/config node_modules/db-migrate/bin/db-migrate up -v -e dev`
