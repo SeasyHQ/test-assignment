@@ -17,8 +17,8 @@ to run each package, see their respective README and package.json
 
 nice to have:
 
-- responsive (mobile)
-- map
+- responsive (mobile version)
+- map (mapboxgl preferred)
 
 ## use cases for backend
 
@@ -29,6 +29,6 @@ nice to have:
 
 nice to have:
 
-- account schema
+- account schema (requires mutation for account table)
 - authentication + authorization for add marina mutation
 - pagination
