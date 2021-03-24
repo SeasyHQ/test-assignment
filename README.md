@@ -2,6 +2,7 @@
 
 ## setup
 
+- fork this repo and work there
 - `yarn`
 - `yarn bootstrap`
 - `cd` into specific package (TODO: add script to run packages from lerna root)
@@ -14,6 +15,7 @@ to run each package, see their respective README and package.json
 - aligned to screenshots design (desktop) as closely as possible
     - list of all marina with cards
     - marina detail page
+- if some data are missing from be, just fake them or add them
 
 nice to have:
 

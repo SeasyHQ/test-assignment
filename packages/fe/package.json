@@ -1,0 +1,23 @@
+{
+  "name": "fe",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "MIT",
+  "private": true,
+  "engines": {
+    "node": "14",
+    "yarn": "1"
+  },
+  "scripts": {
+    "relay": "relay-compiler",
+    "syncgql": "run-s schema relay",
+    "schema": "graphql-codegen"
+  },
+  "browserslist": [
+    "defaults",
+    "not baidu > 0",
+    "not ie > 0",
+    "not kaios > 0",
+    "not op_mini all"
+  ],
+}
