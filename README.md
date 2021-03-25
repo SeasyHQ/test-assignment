@@ -3,7 +3,7 @@
 ## setup
 
 - fork this repo and work there
-- `yarn`
+- `yarn` (for some reason on MacOS its building sqlite3...)
 - `yarn bootstrap`
 - `cd` into specific package (TODO: add script to run packages from lerna root)
 

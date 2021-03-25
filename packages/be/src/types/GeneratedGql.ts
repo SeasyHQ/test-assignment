@@ -50,6 +50,7 @@ export type Country = Node & {
 export type Marina = Node & {
   __typename?: 'Marina';
   id: Scalars['ID'];
+  name: Scalars['String'];
   city?: Maybe<City>;
   country?: Maybe<Country>;
   lat: Scalars['Float'];
@@ -245,6 +246,7 @@ export type CountryResolvers<ContextType = ApolloContext, ParentType extends Res
 
 export type MarinaResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['Marina'] = ResolversParentTypes['Marina']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   city?: Resolver<Maybe<ResolversTypes['City']>, ParentType, ContextType>;
   country?: Resolver<Maybe<ResolversTypes['Country']>, ParentType, ContextType>;
   lat?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;

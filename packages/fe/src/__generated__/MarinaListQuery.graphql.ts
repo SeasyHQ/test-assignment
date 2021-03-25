@@ -7,6 +7,7 @@ export type MarinaListQueryVariables = {};
 export type MarinaListQueryResponse = {
     readonly marinas: ReadonlyArray<{
         readonly id: string;
+        readonly name: string;
     }> | null;
 };
 export type MarinaListQuery = {
@@ -20,6 +21,7 @@ export type MarinaListQuery = {
 query MarinaListQuery {
   marinas {
     id
+    name
   }
 }
 */
@@ -39,6 +41,13 @@ var v0 = [
         "args": null,
         "kind": "ScalarField",
         "name": "id",
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "kind": "ScalarField",
+        "name": "name",
         "storageKey": null
       }
     ],
@@ -63,14 +72,14 @@ return {
     "selections": (v0/*: any*/)
   },
   "params": {
-    "cacheID": "c35311f7e5f6096afbb1468f3f8b6414",
+    "cacheID": "946a0736d178d80c2050413ecb4f6b1e",
     "id": null,
     "metadata": {},
     "name": "MarinaListQuery",
     "operationKind": "query",
-    "text": "query MarinaListQuery {\n  marinas {\n    id\n  }\n}\n"
+    "text": "query MarinaListQuery {\n  marinas {\n    id\n    name\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '35355f335592b65d2bf6021c9c041d41';
+(node as any).hash = 'b5e576de9d78c837a5d48724fbead9d0';
 export default node;

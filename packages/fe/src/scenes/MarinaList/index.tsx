@@ -10,6 +10,7 @@ export default function MarinaList() {
       query MarinaListQuery {
         marinas {
           id
+          name
         }
       }
     `,

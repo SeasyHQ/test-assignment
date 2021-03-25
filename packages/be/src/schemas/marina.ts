@@ -10,6 +10,7 @@ export const TYPE = "Marina";
 export const schema = gql`
   type ${TYPE} implements Node {
     id: ID!
+    name: String!
     city: City
     country: Country
     lat: Float!

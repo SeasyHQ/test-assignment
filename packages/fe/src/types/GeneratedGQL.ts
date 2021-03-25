@@ -45,6 +45,7 @@ export type Country = Node & {
 export type Marina = Node & {
   __typename?: 'Marina';
   id: Scalars['ID'];
+  name: Scalars['String'];
   city?: Maybe<City>;
   country?: Maybe<Country>;
   lat: Scalars['Float'];
