@@ -12,11 +12,10 @@ to run each package, see their respective README and package.json
 ## use cases for frontend
 
 - feel free to use any component library (we use mui)
-- if styling modifications are needed, styled-components is preferred, but i dont care if you dont use it
-- aligned to screenshots design (desktop) as closely as possible (see `package/fe/design`)
+- aligned to screenshots design (desktop) as closely as possible (see `design`)
     - list of all marina with cards
     - marina detail page
-- if some data are missing from be, just fake them or add them
+- if some data are missing from be, just fake them (fe or be, doesn't matter)
 
 nice to have:
 

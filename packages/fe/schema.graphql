@@ -1,0 +1,70 @@
+directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE
+
+input AddMarinaInput {
+  id: ID!
+}
+
+type Amenity implements Node {
+  id: ID!
+  code: String!
+}
+
+enum CacheControlScope {
+  PUBLIC
+  PRIVATE
+}
+
+type City implements Node {
+  id: ID!
+  code: String!
+  country: Country!
+  lat: Float!
+  lon: Float!
+}
+
+type Country implements Node {
+  id: ID!
+  code: String!
+}
+
+type Marina implements Node {
+  id: ID!
+  city: City
+  country: Country
+  lat: Float!
+  lon: Float!
+  photo: Photo
+  amenities: [Amenity]
+}
+
+type MarinaPayload {
+  marina: Marina
+}
+
+type Mutation {
+  addMarina(input: AddMarinaInput!): MarinaPayload
+}
+
+interface Node {
+  id: ID!
+}
+
+type PageInfo {
+  hasNextPage: Boolean
+  hasPreviousPage: Boolean
+  startCursor: String
+  endCursor: String
+}
+
+type Photo implements Node {
+  id: ID!
+  url: String!
+}
+
+type Query {
+  marinas: [Marina!]
+  cities: [City!]
+  countries: [Country!]
+  amenities: [Amenity!]
+  photos: [Photo!]
+}

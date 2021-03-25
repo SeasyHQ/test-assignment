@@ -1,0 +1,17 @@
+schema: http://localhost:8081/graphql
+
+# also check relay.config.js customScalars
+# config:
+#   scalars:
+#     DateTime: string
+#     Date: string
+#     Money: string
+#     Time24H: string
+
+generates:
+  ./schema.graphql:
+    plugins:
+      - schema-ast
+  ./src/types/GeneratedGQL.ts:
+    plugins:
+      - typescript
