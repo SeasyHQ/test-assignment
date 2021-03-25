@@ -3,6 +3,8 @@
 - setup your `.env` just copy `.env.example` content
 - `yarn start`
 
+- `http://localhost:8081/graphql`
+
 ## gql types / codegen
 
 - `yarn codegen`
