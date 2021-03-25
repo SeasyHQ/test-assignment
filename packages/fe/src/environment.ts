@@ -30,7 +30,7 @@ export function makeRelayEnvironment() {
       }
     }),
     urlMiddleware({
-      url: String(process.env.GQL_URL),
+      url: "http://localhost:8081/graphql",
       method: "POST",
       // credentials: "include",
       mode: "cors",
