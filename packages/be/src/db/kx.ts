@@ -17,11 +17,8 @@ const kxConfig = {
 
 const kx = Knex(knexStringcase(kxConfig));
 
-// kx.on("query-response", (res) => {
-//   // if (res && res[0] && res[0].dateTo) {
-//   //   console.log(res.length);
-//   // }
-//   console.log(res);
-// });
+kx.on("query-response", res => {
+  // console.log(res);
+});
 
 export default kx;

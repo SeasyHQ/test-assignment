@@ -68,4 +68,5 @@ type Query {
   countries: [Country!]
   amenities: [Amenity!]
   photos: [Photo!]
+  marina(id: ID!): Marina
 }

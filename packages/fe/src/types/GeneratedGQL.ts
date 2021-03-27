@@ -94,4 +94,10 @@ export type Query = {
   countries?: Maybe<Array<Country>>;
   amenities?: Maybe<Array<Amenity>>;
   photos?: Maybe<Array<Photo>>;
+  marina?: Maybe<Marina>;
+};
+
+
+export type QueryMarinaArgs = {
+  id: Scalars['ID'];
 };
