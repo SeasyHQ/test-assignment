@@ -1,0 +1,62 @@
+@import "sass/constants.scss";
+
+.title {
+  height: 160px;
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  background-image: url("./bg.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+
+  @media #{$md} {
+    height: 160px;
+  }
+}
+
+.h1 {
+  padding: 0;
+  margin: 0 0 10px;
+  font-size: 3.6rem;
+
+  color: $white;
+
+  @media #{$md} {
+    font-size: 4.8rem;
+  }
+}
+
+.count {
+  font-size: 1.6rem;
+
+  color: $white;
+
+  @media #{$md} {
+    font-size: 1.5rem;
+  }
+}
+
+.marinas {
+  margin-top: 20px;
+
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.marinaCard {
+  width: 32%;
+  margin-bottom: 15px;
+
+  .cardImage {
+    width: 290px;
+    height: 180px;
+
+    border-radius: 10px;
+  }
+}
