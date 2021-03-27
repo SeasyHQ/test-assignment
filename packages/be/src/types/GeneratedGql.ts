@@ -99,6 +99,12 @@ export type Query = {
   countries?: Maybe<Array<Country>>;
   amenities?: Maybe<Array<Amenity>>;
   photos?: Maybe<Array<Photo>>;
+  marina?: Maybe<Marina>;
+};
+
+
+export type QueryMarinaArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -290,6 +296,7 @@ export type QueryResolvers<ContextType = ApolloContext, ParentType extends Resol
   countries?: Resolver<Maybe<Array<ResolversTypes['Country']>>, ParentType, ContextType>;
   amenities?: Resolver<Maybe<Array<ResolversTypes['Amenity']>>, ParentType, ContextType>;
   photos?: Resolver<Maybe<Array<ResolversTypes['Photo']>>, ParentType, ContextType>;
+  marina?: Resolver<Maybe<ResolversTypes['Marina']>, ParentType, ContextType, RequireFields<QueryMarinaArgs, 'id'>>;
 };
 
 export type Resolvers<ContextType = ApolloContext> = {
