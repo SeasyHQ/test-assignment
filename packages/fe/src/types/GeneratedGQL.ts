@@ -13,7 +13,13 @@ export type Scalars = {
 
 
 export type AddMarinaInput = {
-  id: Scalars['ID'];
+  name: Scalars['String'];
+  photoUrl?: Maybe<Scalars['String']>;
+  lat: Scalars['Float'];
+  lon: Scalars['Float'];
+  city: Scalars['String'];
+  country: Scalars['String'];
+  amenities?: Maybe<Array<Scalars['String']>>;
 };
 
 export type Amenity = Node & {

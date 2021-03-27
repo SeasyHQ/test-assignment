@@ -9,13 +9,14 @@ import {
   CircularProgress,
   FormLabel,
 } from "@material-ui/core";
-import { useQuery } from "relay-hooks";
+import { useMutation, useQuery } from "relay-hooks";
 import graphql from "babel-plugin-relay/macro";
 import { Add, CheckCircleOutlineOutlined } from "@material-ui/icons";
 import "mapbox-gl/dist/mapbox-gl.css";
 import { AddMarinaAmenitiesQuery } from "__generated__/AddMarinaAmenitiesQuery.graphql";
 
 import styles from "./add-marina.module.scss";
+import { AddMarinaMutation } from "__generated__/AddMarinaMutation.graphql";
 
 const MARINA_KREMIK_LON_LAT: [number, number] = [15.9379, 43.5696];
 const MAPBOX_WEBSERVICES_URL = "https://api.mapbox.com";
@@ -62,7 +63,6 @@ export default function AddMarina() {
   const map = useRef<mapboxgl.Map>();
   const locationMarker = useRef<mapboxgl.Marker>();
 
-  const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [formState, setFormState] = useState<FormState>({
     amenities: new Set(),
@@ -114,6 +114,16 @@ export default function AddMarina() {
     }
   );
 
+  const [commit, loading] = useMutation<AddMarinaMutation>(graphql`
+    mutation AddMarinaMutation($input: AddMarinaInput!) {
+      addMarina(input: $input) {
+        marina {
+          id
+        }
+      }
+    }
+  `);
+
   useEffect(() => {
     if (!map.current) {
       mapboxgl.accessToken = ACCESS_TOKEN_MAPBOX;
@@ -150,9 +160,10 @@ export default function AddMarina() {
   }, []);
 
   const submit = () => {
-    setLoading(true);
+    const lngLat = locationMarker.current!.getLngLat();
+
+    commit({variables: {input: {...formState, amenities: Array.from(formState.amenities), lon: lngLat.lng, lat: lngLat.lat}}});
     setTimeout(() => {
-      setLoading(false);
       setSubmitted(true);
     }, 2000);
   };

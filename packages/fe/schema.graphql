@@ -1,7 +1,13 @@
 directive @cacheControl(maxAge: Int, scope: CacheControlScope) on FIELD_DEFINITION | OBJECT | INTERFACE
 
 input AddMarinaInput {
-  id: ID!
+  name: String!
+  photoUrl: String
+  lat: Float!
+  lon: Float!
+  city: String!
+  country: String!
+  amenities: [String!]
 }
 
 type Amenity implements Node {
