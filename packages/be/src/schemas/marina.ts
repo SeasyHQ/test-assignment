@@ -21,8 +21,13 @@ export const schema = gql`
   }
 
   input Add${TYPE}Input {
-    id: ID!
-    # TODO
+    name: String!
+    photoUrl: String
+    lat: Float!
+    lon: Float!
+    city: String!
+    country: String!
+    amenities: [String!]
   }
 
   type ${TYPE}Payload {
@@ -40,5 +45,5 @@ export const resolver: MarinaResolvers = {
     getCountryBase()
       .where({ code: countryCode })
       .first(),
-  amenities: ({ id }) => getAmenityByMarinaId(id)
+  amenities: ({ id }) => getAmenityByMarinaId(id),
 };

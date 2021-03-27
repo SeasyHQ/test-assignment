@@ -18,7 +18,13 @@ export type Scalars = {
 
 
 export type AddMarinaInput = {
-  id: Scalars['ID'];
+  name: Scalars['String'];
+  photoUrl?: Maybe<Scalars['String']>;
+  lat: Scalars['Float'];
+  lon: Scalars['Float'];
+  city: Scalars['String'];
+  country: Scalars['String'];
+  amenities?: Maybe<Array<Scalars['String']>>;
 };
 
 export type Amenity = Node & {
@@ -186,12 +192,12 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   AddMarinaInput: AddMarinaInput;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
-  Amenity: ResolverTypeWrapper<amenityDb>;
   String: ResolverTypeWrapper<Scalars['String']>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
+  Amenity: ResolverTypeWrapper<amenityDb>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
   CacheControlScope: CacheControlScope;
   City: ResolverTypeWrapper<cityDb>;
-  Float: ResolverTypeWrapper<Scalars['Float']>;
   Country: ResolverTypeWrapper<countryDb>;
   Marina: ResolverTypeWrapper<marinaDb>;
   MarinaPayload: ResolverTypeWrapper<Omit<MarinaPayload, 'marina'> & { marina?: Maybe<ResolversTypes['Marina']> }>;
@@ -207,11 +213,11 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   AddMarinaInput: AddMarinaInput;
-  ID: Scalars['ID'];
-  Amenity: amenityDb;
   String: Scalars['String'];
-  City: cityDb;
   Float: Scalars['Float'];
+  Amenity: amenityDb;
+  ID: Scalars['ID'];
+  City: cityDb;
   Country: countryDb;
   Marina: marinaDb;
   MarinaPayload: Omit<MarinaPayload, 'marina'> & { marina?: Maybe<ResolversParentTypes['Marina']> };
