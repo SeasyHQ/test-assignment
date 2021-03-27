@@ -6,7 +6,7 @@ import { Routes } from "routes";
 
 import { MarinaListQuery } from "__generated__/MarinaListQuery.graphql";
 
-import styles from './marina-list.module.scss';
+import styles from "./marina-list.module.scss";
 
 export default function MarinaList() {
   const { data } = useQuery<MarinaListQuery>(
@@ -34,27 +34,43 @@ export default function MarinaList() {
     `,
     {},
     {
-      fetchPolicy: "store-and-network"
+      fetchPolicy: "store-and-network",
     }
   );
 
   return (
     <>
       <div className={styles.title}>
-        <h1 className={styles.h1}>
-          CROATIA
-        </h1>
-        <div className={styles.count}>{data?.marinas?.length ? data?.marinas?.length - 1 : 130}+ marines for booking</div>
+        <h1 className={styles.h1}>CROATIA</h1>
+        <div className={styles.count}>
+          {data?.marinas?.length ? data?.marinas?.length - 1 : 130}+ marines for
+          booking
+        </div>
       </div>
       <div className={styles.marinas}>
         {data?.marinas?.map((marina, index) => (
           <div key={marina.id} className={styles.marinaCard}>
+            <img
+              alt={marina.name}
+              src={
+                marina.photo?.url ||
+                `https://picsum.photos/290/180.webp?random=${index}`
+              }
+              className={styles.cardImage}
+            />
+            <div className={styles.locationRow}>
+              <span className={styles.location}>{marina.city?.code}</span> |{" "}
+              <span className={styles.location}>{marina.country?.code}</span>
+            </div>
             <Link
+              className={styles.name}
               to={Routes.getTo(Routes.MARINA_DETAIL, { id: marina.id })}
             >
-              <img alt={marina.name} src={marina.photo?.url || `https://picsum.photos/290/180.webp?random=${index}`} className={styles.cardImage} />
               {marina.name}
             </Link>
+            <div className={styles.price}>
+              76&euro; per night
+            </div>
           </div>
         ))}
       </div>
