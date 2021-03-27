@@ -1,9 +1,10 @@
 import { gql, IResolverObject } from "apollo-server-koa";
 import { toGlobalId } from "graphql-relay";
 
-import type { cityDb } from "../types/GeneratedDb";
 import { MarinaResolvers } from "../types/GeneratedGql";
 import { getCityBase } from "../db/city";
+import { getCountryBase } from "../db/country";
+import { getAmenityByMarinaId } from "../db/amenity";
 
 export const TYPE = "Marina";
 
@@ -31,6 +32,13 @@ export const schema = gql`
 
 export const resolver: MarinaResolvers = {
   id: ({ id }) => toGlobalId(TYPE, String(id)),
-  city: ({ cityCode }) => getCityBase().where({ code: cityCode }).first()
-  // TODO:
+  city: ({ cityCode }) =>
+    getCityBase()
+      .where({ code: cityCode })
+      .first(),
+  country: ({ countryCode }) =>
+    getCountryBase()
+      .where({ code: countryCode })
+      .first(),
+  amenities: ({ id }) => getAmenityByMarinaId(id)
 };
