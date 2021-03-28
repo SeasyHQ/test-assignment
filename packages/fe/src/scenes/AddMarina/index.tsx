@@ -20,8 +20,9 @@ import { AddMarinaAmenitiesQuery } from "__generated__/AddMarinaAmenitiesQuery.g
 
 import styles from "./add-marina.module.scss";
 import { AddMarinaMutation } from "__generated__/AddMarinaMutation.graphql";
-import { useHistory, useLocation } from "react-router";
+import { useHistory } from "react-router";
 import { Routes } from "routes";
+import { GraphQLError } from "graphql";
 
 const MARINA_KREMIK_LON_LAT: [number, number] = [15.9379, 43.5696];
 const MAPBOX_WEBSERVICES_URL = "https://api.mapbox.com";
@@ -214,6 +215,12 @@ export default function AddMarina() {
           error: "There was an error creating marina.",
         });
       }
+    }).catch((error: GraphQLError) => {
+      setSubmitState({
+        submitted: true,
+        sucess: false,
+        error: error.message
+      });
     });
   };
 

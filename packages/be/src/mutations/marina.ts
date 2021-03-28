@@ -36,7 +36,7 @@ export const addMarina = async (
       if (isValid) {
         return saveMarinaToDb(input);
       } else {
-        // return ApolloError (?)
+        throw new ApolloError("Invalid input arguments.");
       }
     })
     .then(async (result) => {
@@ -45,9 +45,8 @@ export const addMarina = async (
           .where({ id: result[0] })
           .first();
         return { marina };
+      } else {
+        throw new ApolloError("Marina not created.");
       }
-    })
-    .catch((e) => {
-      console.log("ERROR", e);
     });
 };
