@@ -1,6 +1,6 @@
 import { ApolloServer, IResolvers } from "apollo-server-koa";
-import type { DocumentNode } from "graphql";
-import type { Context as KoaContext } from "koa";
+import { DocumentNode } from "graphql";
+import { Context as KoaContext } from "koa";
 
 import { ApolloContext } from "./types/ApolloContext";
 import * as query from "./query";
@@ -11,7 +11,7 @@ import * as marina from "./schemas/marina";
 import * as photo from "./schemas/photo";
 import * as amenity from "./schemas/amenity";
 import * as country from "./schemas/country";
-// import * as mutation from "./mutation";
+
 import * as node from "./query/node";
 
 const typeDefs: DocumentNode[] = [
@@ -25,7 +25,7 @@ const typeDefs: DocumentNode[] = [
   marina.schema,
 
   query.schema,
-  mutations.schema,
+  mutations.schema
 ];
 
 const resolvers: IResolvers<any, {}> = {
@@ -36,9 +36,10 @@ const resolvers: IResolvers<any, {}> = {
   [country.TYPE]: country.resolver,
   [photo.TYPE]: photo.resolver,
   [marina.TYPE]: marina.resolver,
+  [amenity.TYPE]: amenity.resolver,
 
   Query: query.resolver,
-  Mutation: mutations.resolver,
+  Mutation: mutations.resolver
 };
 
 type Request = {
@@ -57,7 +58,7 @@ const server = new ApolloServer({
   },
   introspection: true,
   debug: true,
-  context: async({ ctx}: Request): Promise<ApolloContext> => {
+  context: async ({ ctx }: Request): Promise<ApolloContext> => {
     return {};
   }
 });

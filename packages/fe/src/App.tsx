@@ -1,44 +1,28 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
 
-import logo from "./logo.svg";
-import "./App.css";
+import { Routes } from "routes";
+import Header from "components/header";
 
-import NotFound from "./scenes/NotFound";
-import MarinaList from "./scenes/MarinaList";
-import MarinaDetail from "./scenes/MarinaDetail";
+import MarinaList from "scenes/MarinaList";
+import MarinaDetail from "scenes/MarinaDetail";
+import NotFound from "scenes/NotFound";
+import AddMarina from "scenes/AddMarina";
+
+import styles from './App.module.scss';
 
 function App() {
   return (
-    <>
+    <div className={styles.wrapper}>
+      <Header />
       <Switch>
-        <Route path="/marina-list" exact component={MarinaList} />
-        <Route path="/marina-detail/:id" exact component={MarinaDetail} />
+        <Route path={Routes.MARINA_LIST} exact component={MarinaList} />
+        <Route path={Routes.MARINA_DETAIL} exact component={MarinaDetail} />
+        <Route path={Routes.ADD_MARINA} exact component={AddMarina} />
         <Route component={NotFound} />
       </Switch>
-    </>
+    </div>
   );
-
-  // return (
-  //   <div className="App">
-  //     <header className="App-header">
-  //       <img src={logo} className="App-logo" alt="logo" />
-  //       <p>
-  //         Edit <code>src/App.tsx</code> and save to reload.
-  //       </p>
-  //       <a
-  //         className="App-link"
-  //         href="https://reactjs.org"
-  //         target="_blank"
-  //         rel="noopener noreferrer"
-  //       >
-  //         Learn React
-  //       </a>
-  //     </header>
-  //     <section>
-  //     </section>
-  //   </div>
-  // );
 }
 
 export default App;

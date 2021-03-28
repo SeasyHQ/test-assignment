@@ -7,7 +7,7 @@
 
 ## gql types / codegen
 
-- `yarn codegen`
+- `yarn generate`
 
 ## db types
 

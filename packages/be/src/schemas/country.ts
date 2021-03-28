@@ -1,7 +1,6 @@
 import { gql, IResolverObject } from "apollo-server-koa";
 import { toGlobalId } from "graphql-relay";
 
-import type { cityDb } from "../types/GeneratedDb";
 import { CountryResolvers } from "../types/GeneratedGql";
 
 export const TYPE = "Country";
@@ -13,4 +12,6 @@ export const schema = gql`
   }
 `;
 
-export const resolver: CountryResolvers = {};
+export const resolver: CountryResolvers = {
+  id: ({ code }) => toGlobalId(TYPE, code)
+};

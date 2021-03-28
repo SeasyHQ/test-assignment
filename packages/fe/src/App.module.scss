@@ -1,0 +1,12 @@
+@import "sass/constants.scss";
+
+.wrapper {
+  background-color: $white;
+  margin: 0 auto;
+  padding: 90px 20px 20px;
+
+  @media #{$md} {
+    max-width: 896px;
+    padding: 110px 0 20px;
+  }
+}

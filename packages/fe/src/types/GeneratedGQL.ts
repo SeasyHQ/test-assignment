@@ -13,7 +13,13 @@ export type Scalars = {
 
 
 export type AddMarinaInput = {
-  id: Scalars['ID'];
+  name: Scalars['String'];
+  photoUrl?: Maybe<Scalars['String']>;
+  lat: Scalars['Float'];
+  lon: Scalars['Float'];
+  city: Scalars['String'];
+  country: Scalars['String'];
+  amenities?: Maybe<Array<Scalars['String']>>;
 };
 
 export type Amenity = Node & {
@@ -52,6 +58,18 @@ export type Marina = Node & {
   lon: Scalars['Float'];
   photo?: Maybe<Photo>;
   amenities?: Maybe<Array<Maybe<Amenity>>>;
+};
+
+export type MarinaConnection = {
+  __typename?: 'MarinaConnection';
+  edges?: Maybe<Array<Maybe<MarinaEdge>>>;
+  pageInfo: PageInfo;
+};
+
+export type MarinaEdge = {
+  __typename?: 'MarinaEdge';
+  cursor: Scalars['String'];
+  node?: Maybe<Marina>;
 };
 
 export type MarinaPayload = {
@@ -94,4 +112,17 @@ export type Query = {
   countries?: Maybe<Array<Country>>;
   amenities?: Maybe<Array<Amenity>>;
   photos?: Maybe<Array<Photo>>;
+  marina?: Maybe<Marina>;
+  marinaConnection?: Maybe<MarinaConnection>;
+};
+
+
+export type QueryMarinaArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryMarinaConnectionArgs = {
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
 };
