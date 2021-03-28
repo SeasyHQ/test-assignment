@@ -14,6 +14,14 @@ export const getMarinaById = (id: number) => {
     .first();
 };
 
+export const getAllMarinasInACity = (cityCode: string) => {
+  return getMarinaBase().where("city_code", cityCode);
+}
+
+export const getAllMarinasInACountry = (countryCode: string) => {
+  return getMarinaBase().where("country_code", countryCode);
+}
+
 export const saveMarinaToDb = async (input: MutationAddMarinaArgs["input"]) => {
   const countryPromise = getOrCreateEntity<countryDb>(
     "country",
