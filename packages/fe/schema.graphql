@@ -44,6 +44,16 @@ type Marina implements Node {
   amenities: [Amenity]
 }
 
+type MarinaConnection {
+  edges: [MarinaEdge]
+  pageInfo: PageInfo!
+}
+
+type MarinaEdge {
+  cursor: String!
+  node: Marina
+}
+
 type MarinaPayload {
   marina: Marina
 }
@@ -75,4 +85,5 @@ type Query {
   amenities: [Amenity!]
   photos: [Photo!]
   marina(id: ID!): Marina
+  marinaConnection(first: Int, after: String): MarinaConnection
 }

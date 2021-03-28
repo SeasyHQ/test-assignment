@@ -1,6 +1,7 @@
 export const amenities: string;
 export const cardImage: string;
 export const count: string;
+export const fetchMore: string;
 export const h1: string;
 export const location: string;
 export const locationRow: string;

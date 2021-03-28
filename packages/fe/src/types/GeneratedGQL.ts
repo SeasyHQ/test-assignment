@@ -60,6 +60,18 @@ export type Marina = Node & {
   amenities?: Maybe<Array<Maybe<Amenity>>>;
 };
 
+export type MarinaConnection = {
+  __typename?: 'MarinaConnection';
+  edges?: Maybe<Array<Maybe<MarinaEdge>>>;
+  pageInfo: PageInfo;
+};
+
+export type MarinaEdge = {
+  __typename?: 'MarinaEdge';
+  cursor: Scalars['String'];
+  node?: Maybe<Marina>;
+};
+
 export type MarinaPayload = {
   __typename?: 'MarinaPayload';
   marina?: Maybe<Marina>;
@@ -101,9 +113,16 @@ export type Query = {
   amenities?: Maybe<Array<Amenity>>;
   photos?: Maybe<Array<Photo>>;
   marina?: Maybe<Marina>;
+  marinaConnection?: Maybe<MarinaConnection>;
 };
 
 
 export type QueryMarinaArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryMarinaConnectionArgs = {
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
 };

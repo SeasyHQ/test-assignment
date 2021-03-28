@@ -65,6 +65,18 @@ export type Marina = Node & {
   amenities?: Maybe<Array<Maybe<Amenity>>>;
 };
 
+export type MarinaConnection = {
+  __typename?: 'MarinaConnection';
+  edges?: Maybe<Array<Maybe<MarinaEdge>>>;
+  pageInfo: PageInfo;
+};
+
+export type MarinaEdge = {
+  __typename?: 'MarinaEdge';
+  cursor: Scalars['String'];
+  node?: Maybe<Marina>;
+};
+
 export type MarinaPayload = {
   __typename?: 'MarinaPayload';
   marina?: Maybe<Marina>;
@@ -106,11 +118,18 @@ export type Query = {
   amenities?: Maybe<Array<Amenity>>;
   photos?: Maybe<Array<Photo>>;
   marina?: Maybe<Marina>;
+  marinaConnection?: Maybe<MarinaConnection>;
 };
 
 
 export type QueryMarinaArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryMarinaConnectionArgs = {
+  first?: Maybe<Scalars['Int']>;
+  after?: Maybe<Scalars['String']>;
 };
 
 
@@ -200,6 +219,8 @@ export type ResolversTypes = {
   City: ResolverTypeWrapper<cityDb>;
   Country: ResolverTypeWrapper<countryDb>;
   Marina: ResolverTypeWrapper<marinaDb>;
+  MarinaConnection: ResolverTypeWrapper<Omit<MarinaConnection, 'edges'> & { edges?: Maybe<Array<Maybe<ResolversTypes['MarinaEdge']>>> }>;
+  MarinaEdge: ResolverTypeWrapper<Omit<MarinaEdge, 'node'> & { node?: Maybe<ResolversTypes['Marina']> }>;
   MarinaPayload: ResolverTypeWrapper<Omit<MarinaPayload, 'marina'> & { marina?: Maybe<ResolversTypes['Marina']> }>;
   Mutation: ResolverTypeWrapper<{}>;
   Node: ResolversTypes['Amenity'] | ResolversTypes['City'] | ResolversTypes['Country'] | ResolversTypes['Marina'] | ResolversTypes['Photo'];
@@ -220,6 +241,8 @@ export type ResolversParentTypes = {
   City: cityDb;
   Country: countryDb;
   Marina: marinaDb;
+  MarinaConnection: Omit<MarinaConnection, 'edges'> & { edges?: Maybe<Array<Maybe<ResolversParentTypes['MarinaEdge']>>> };
+  MarinaEdge: Omit<MarinaEdge, 'node'> & { node?: Maybe<ResolversParentTypes['Marina']> };
   MarinaPayload: Omit<MarinaPayload, 'marina'> & { marina?: Maybe<ResolversParentTypes['Marina']> };
   Mutation: {};
   Node: ResolversParentTypes['Amenity'] | ResolversParentTypes['City'] | ResolversParentTypes['Country'] | ResolversParentTypes['Marina'] | ResolversParentTypes['Photo'];
@@ -268,6 +291,18 @@ export type MarinaResolvers<ContextType = ApolloContext, ParentType extends Reso
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 
+export type MarinaConnectionResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['MarinaConnection'] = ResolversParentTypes['MarinaConnection']> = {
+  edges?: Resolver<Maybe<Array<Maybe<ResolversTypes['MarinaEdge']>>>, ParentType, ContextType>;
+  pageInfo?: Resolver<ResolversTypes['PageInfo'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
+export type MarinaEdgeResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['MarinaEdge'] = ResolversParentTypes['MarinaEdge']> = {
+  cursor?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  node?: Resolver<Maybe<ResolversTypes['Marina']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MarinaPayloadResolvers<ContextType = ApolloContext, ParentType extends ResolversParentTypes['MarinaPayload'] = ResolversParentTypes['MarinaPayload']> = {
   marina?: Resolver<Maybe<ResolversTypes['Marina']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
@@ -303,6 +338,7 @@ export type QueryResolvers<ContextType = ApolloContext, ParentType extends Resol
   amenities?: Resolver<Maybe<Array<ResolversTypes['Amenity']>>, ParentType, ContextType>;
   photos?: Resolver<Maybe<Array<ResolversTypes['Photo']>>, ParentType, ContextType>;
   marina?: Resolver<Maybe<ResolversTypes['Marina']>, ParentType, ContextType, RequireFields<QueryMarinaArgs, 'id'>>;
+  marinaConnection?: Resolver<Maybe<ResolversTypes['MarinaConnection']>, ParentType, ContextType, RequireFields<QueryMarinaConnectionArgs, never>>;
 };
 
 export type Resolvers<ContextType = ApolloContext> = {
@@ -310,6 +346,8 @@ export type Resolvers<ContextType = ApolloContext> = {
   City?: CityResolvers<ContextType>;
   Country?: CountryResolvers<ContextType>;
   Marina?: MarinaResolvers<ContextType>;
+  MarinaConnection?: MarinaConnectionResolvers<ContextType>;
+  MarinaEdge?: MarinaEdgeResolvers<ContextType>;
   MarinaPayload?: MarinaPayloadResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Node?: NodeResolvers<ContextType>;
