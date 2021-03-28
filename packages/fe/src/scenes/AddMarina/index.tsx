@@ -10,7 +10,7 @@ import {
   FormLabel,
   Snackbar,
 } from "@material-ui/core";
-import {Alert} from "@material-ui/lab";
+import { Alert } from "@material-ui/lab";
 import { useHistory } from "react-router";
 import { GraphQLError } from "graphql";
 import { useMutation, useQuery } from "relay-hooks";
@@ -23,39 +23,10 @@ import { Routes } from "routes";
 import { AddMarinaAmenitiesQuery } from "__generated__/AddMarinaAmenitiesQuery.graphql";
 import { AddMarinaMutation } from "__generated__/AddMarinaMutation.graphql";
 
+import { ACCESS_TOKEN_MAPBOX, getCityCountryFromLonLat } from "./utils";
 import styles from "./add-marina.module.scss";
 
 const MARINA_KREMIK_LON_LAT: [number, number] = [15.9379, 43.5696];
-const MAPBOX_WEBSERVICES_URL = "https://api.mapbox.com";
-const ACCESS_TOKEN_MAPBOX =
-  "pk.eyJ1Ijoib2h1c2FyIiwiYSI6ImNrbXJ1bDRyMzBia2IycHJzbmdpbjVobWYifQ.7EthsV5t9R6ve15oUewRjQ";
-
-const getCityCountryFromLonLat = async (lon: number, lat: number) => {
-  const url = `${MAPBOX_WEBSERVICES_URL}/geocoding/v5/mapbox.places/${lon},${lat}.json?access_token=${ACCESS_TOKEN_MAPBOX}`;
-  const response = (await (await fetch(url)).json()) as any;
-
-  let city = "",
-    country = "";
-
-  if (response.features && response.features.length) {
-    (response.features as Array<any>).forEach((feature: any) => {
-      if (
-        !city &&
-        (feature["place_type"].indexOf("place") !== -1 ||
-          feature["place_type"].indexOf("region") !== -1)
-      ) {
-        city = feature.text;
-      }
-    });
-
-    (response.features as Array<any>).reverse().forEach((feature: any) => {
-      if (!country && feature["place_type"].indexOf("country") !== -1) {
-        country = feature.text;
-      }
-    });
-  }
-  return [city, country];
-};
 
 interface FormState {
   name: string;
@@ -72,11 +43,11 @@ interface FormSubmitState {
 }
 
 export default function AddMarina() {
+  const history = useHistory();
+
   const mapElementRef = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
   const locationMarker = useRef<mapboxgl.Marker>();
-
-  const history = useHistory();
 
   const [submitState, setSubmitState] = useState<FormSubmitState>({
     submitted: false,
@@ -90,32 +61,6 @@ export default function AddMarina() {
     city: "",
     country: "",
   });
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const target = event.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const name = target.name;
-
-    setFormState({
-      ...formState,
-      [name]: value,
-    });
-  };
-
-  const handleAmenityChange = (code: string) => {
-    const amenities = new Set(formState.amenities);
-
-    if (amenities.has(code)) {
-      amenities.delete(code);
-    } else {
-      amenities.add(code);
-    }
-
-    setFormState({
-      ...formState,
-      amenities,
-    });
-  };
 
   const { data } = useQuery<AddMarinaAmenitiesQuery>(
     graphql`
@@ -145,87 +90,130 @@ export default function AddMarina() {
 
   useEffect(() => {
     if (!map.current) {
-      mapboxgl.accessToken = ACCESS_TOKEN_MAPBOX;
-      map.current = new mapboxgl.Map({
-        style: "mapbox://styles/mapbox/streets-v11", // style URL
-        container: mapElementRef.current?.id || "mapElementId", // container ID
-        center: MARINA_KREMIK_LON_LAT, // starting position [lng, lat]
-        zoom: 12, // starting zoom
-      });
-
-      locationMarker.current = new mapboxgl.Marker({
-        draggable: true,
-      })
-        .setLngLat(MARINA_KREMIK_LON_LAT)
-        .addTo(map.current);
-
-      locationMarker.current.on("dragend", async (e) => {
-        if (locationMarker.current) {
-          const lngLat = locationMarker.current.getLngLat();
-
-          const [city, country] = await getCityCountryFromLonLat(
-            lngLat.lng,
-            lngLat.lat
-          );
-
-          setFormState((prev) => ({
-            ...prev,
-            city,
-            country,
-          }));
-        }
-      });
+      loadMapbox();
     }
 
     return () => map.current && map.current.remove();
   }, []);
 
-  const submit = () => {
-    const lngLat = locationMarker.current!.getLngLat();
-
-    const savePromise = commit({
-      variables: {
-        input: {
-          ...formState,
-          amenities: Array.from(formState.amenities),
-          lon: lngLat.lng,
-          lat: lngLat.lat,
-        },
-      },
+  const loadMapbox = () => {
+    mapboxgl.accessToken = ACCESS_TOKEN_MAPBOX;
+    map.current = new mapboxgl.Map({
+      style: "mapbox://styles/mapbox/streets-v11", // style URL
+      container: mapElementRef.current?.id || "mapElementId", // container ID
+      center: MARINA_KREMIK_LON_LAT, // starting position [lng, lat]
+      zoom: 12, // starting zoom
     });
 
-    savePromise.then((result) => {
-      if (result && result.addMarina?.marina?.id) {
-        setSubmitState({
-          submitted: true,
-          sucess: true,
-          error: null,
-        });
+    locationMarker.current = new mapboxgl.Marker({
+      draggable: true,
+    })
+      .setLngLat(MARINA_KREMIK_LON_LAT)
+      .addTo(map.current);
 
-        setTimeout(() => {
-          history.push(
-            Routes.getTo(Routes.MARINA_DETAIL, {
-              id: result!.addMarina!.marina!.id,
-            })
-          );
-        }, 1500);
-      } else {
-        setSubmitState({
-          submitted: true,
-          sucess: false,
-          error: "There was an error creating marina.",
-        });
+    locationMarker.current.on("dragend", async (e) => {
+      if (locationMarker.current) {
+        const lngLat = locationMarker.current.getLngLat();
+
+        const [city, country] = await getCityCountryFromLonLat(
+          lngLat.lng,
+          lngLat.lat
+        );
+
+        setFormState((prev) => ({
+          ...prev,
+          city,
+          country,
+        }));
       }
-    }).catch((error: GraphQLError) => {
-      setSubmitState({
-        submitted: true,
-        sucess: false,
-        error: error.message
-      });
     });
   };
 
-  const handleClose = () => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const target = event.target;
+    const value = target.type === "checkbox" ? target.checked : target.value;
+    const name = target.name;
+
+    setFormState({
+      ...formState,
+      [name]: value,
+    });
+  };
+
+  const handleAmenityChange = (code: string) => {
+    const amenities = new Set(formState.amenities);
+
+    if (amenities.has(code)) {
+      amenities.delete(code);
+    } else {
+      amenities.add(code);
+    }
+
+    setFormState({
+      ...formState,
+      amenities,
+    });
+  };
+
+  const submit = () => {
+    const savePromise = commit({
+      variables: {
+        input: getMutationInput(),
+      },
+    });
+
+    savePromise
+      .then((result) => {
+        if (result && result.addMarina?.marina?.id) {
+          setSubmitSuccess();
+          redirectToMarinaAfterDelay(result!.addMarina!.marina!.id);
+        } else {
+          setSubmitError("There was an error creating marina.");
+        }
+      })
+      .catch((error: GraphQLError) => {
+        setSubmitError(error.message);
+      });
+  };
+
+  const getMutationInput = () => {
+    const lngLat = locationMarker.current!.getLngLat();
+
+    return {
+      ...formState,
+      amenities: Array.from(formState.amenities),
+      lon: lngLat.lng,
+      lat: lngLat.lat,
+    };
+  };
+
+  const setSubmitSuccess = () => {
+    setSubmitState({
+      submitted: true,
+      sucess: true,
+      error: null,
+    });
+  };
+
+  const setSubmitError = (msg: string) => {
+    setSubmitState({
+      submitted: true,
+      sucess: false,
+      error: msg,
+    });
+  };
+
+  const redirectToMarinaAfterDelay = (marinaId: string) => {
+    setTimeout(() => {
+      history.push(
+        Routes.getTo(Routes.MARINA_DETAIL, {
+          id: marinaId,
+        })
+      );
+    }, 1500);
+  };
+
+  const handleAlertClose = () => {
     setSubmitState({
       submitted: false,
       sucess: false,
@@ -255,7 +243,6 @@ export default function AddMarina() {
           label="Photo URL"
           style={{ marginTop: 15 }}
         />
-
         <FormLabel component="legend" className={styles.inputMargin}>
           Amenities
         </FormLabel>
@@ -318,13 +305,13 @@ export default function AddMarina() {
       <Snackbar
         open={submitState.submitted}
         autoHideDuration={6000}
-        onClose={handleClose}
+        onClose={handleAlertClose}
       >
         <Alert
           elevation={6}
           variant="filled"
           severity={submitState.sucess ? "success" : "error"}
-          onClose={handleClose}
+          onClose={handleAlertClose}
         >
           {submitState.sucess
             ? "Marina successfully created, you will be redirected."
