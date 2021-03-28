@@ -8,7 +8,10 @@ import {
   Checkbox,
   CircularProgress,
   FormLabel,
+  Snackbar,
 } from "@material-ui/core";
+import {Alert} from "@material-ui/lab";
+
 import { useMutation, useQuery } from "relay-hooks";
 import graphql from "babel-plugin-relay/macro";
 import { Add, CheckCircleOutlineOutlined } from "@material-ui/icons";
@@ -17,6 +20,8 @@ import { AddMarinaAmenitiesQuery } from "__generated__/AddMarinaAmenitiesQuery.g
 
 import styles from "./add-marina.module.scss";
 import { AddMarinaMutation } from "__generated__/AddMarinaMutation.graphql";
+import { useHistory, useLocation } from "react-router";
+import { Routes } from "routes";
 
 const MARINA_KREMIK_LON_LAT: [number, number] = [15.9379, 43.5696];
 const MAPBOX_WEBSERVICES_URL = "https://api.mapbox.com";
@@ -58,12 +63,24 @@ interface FormState {
   country: string;
 }
 
+interface FormSubmitState {
+  submitted: boolean;
+  sucess: boolean;
+  error: null | string;
+}
+
 export default function AddMarina() {
   const mapElementRef = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map>();
   const locationMarker = useRef<mapboxgl.Marker>();
 
-  const [submitted, setSubmitted] = useState(false);
+  const history = useHistory();
+
+  const [submitState, setSubmitState] = useState<FormSubmitState>({
+    submitted: false,
+    sucess: false,
+    error: null,
+  });
   const [formState, setFormState] = useState<FormState>({
     amenities: new Set(),
     name: "",
@@ -114,7 +131,7 @@ export default function AddMarina() {
     }
   );
 
-  const [commit, loading] = useMutation<AddMarinaMutation>(graphql`
+  const [commit, { loading }] = useMutation<AddMarinaMutation>(graphql`
     mutation AddMarinaMutation($input: AddMarinaInput!) {
       addMarina(input: $input) {
         marina {
@@ -140,20 +157,22 @@ export default function AddMarina() {
         .setLngLat(MARINA_KREMIK_LON_LAT)
         .addTo(map.current);
 
-      locationMarker.current.on('dragend', async (e) => {
+      locationMarker.current.on("dragend", async (e) => {
         if (locationMarker.current) {
-            const lngLat = locationMarker.current.getLngLat();
+          const lngLat = locationMarker.current.getLngLat();
 
-            const [city, country] = await getCityCountryFromLonLat(lngLat.lng, lngLat.lat);
+          const [city, country] = await getCityCountryFromLonLat(
+            lngLat.lng,
+            lngLat.lat
+          );
 
-            setFormState(prev => ({
-                ...prev,
-                city,
-                country
-            }));
-
-          }
-        });
+          setFormState((prev) => ({
+            ...prev,
+            city,
+            country,
+          }));
+        }
+      });
     }
 
     return () => map.current && map.current.remove();
@@ -162,10 +181,48 @@ export default function AddMarina() {
   const submit = () => {
     const lngLat = locationMarker.current!.getLngLat();
 
-    commit({variables: {input: {...formState, amenities: Array.from(formState.amenities), lon: lngLat.lng, lat: lngLat.lat}}});
-    setTimeout(() => {
-      setSubmitted(true);
-    }, 2000);
+    const savePromise = commit({
+      variables: {
+        input: {
+          ...formState,
+          amenities: Array.from(formState.amenities),
+          lon: lngLat.lng,
+          lat: lngLat.lat,
+        },
+      },
+    });
+
+    savePromise.then((result) => {
+      if (result && result.addMarina?.marina?.id) {
+        setSubmitState({
+          submitted: true,
+          sucess: true,
+          error: null,
+        });
+
+        setTimeout(() => {
+          history.push(
+            Routes.getTo(Routes.MARINA_DETAIL, {
+              id: result!.addMarina!.marina!.id,
+            })
+          );
+        }, 1500);
+      } else {
+        setSubmitState({
+          submitted: true,
+          sucess: false,
+          error: "There was an error creating marina.",
+        });
+      }
+    });
+  };
+
+  const handleClose = () => {
+    setSubmitState({
+      submitted: false,
+      sucess: false,
+      error: null,
+    });
   };
 
   return (
@@ -225,7 +282,7 @@ export default function AddMarina() {
             onChange={handleInputChange}
             variant="outlined"
             label="Country"
-            style={{ marginTop: 15}}
+            style={{ marginTop: 15 }}
           />
         </FormGroup>
         <div className={styles.map} id="mapElementId" ref={mapElementRef}></div>
@@ -235,7 +292,7 @@ export default function AddMarina() {
           startIcon={
             loading ? (
               <CircularProgress size={15} />
-            ) : submitted ? (
+            ) : submitState.sucess ? (
               <CheckCircleOutlineOutlined />
             ) : (
               <Add />
@@ -244,13 +301,28 @@ export default function AddMarina() {
           fullWidth={true}
           disabled={false}
           onClick={async () => {
-
             submit();
           }}
         >
           Save Marina
         </Button>
       </form>
+      <Snackbar
+        open={submitState.submitted}
+        autoHideDuration={6000}
+        onClose={handleClose}
+      >
+        <Alert
+          elevation={6}
+          variant="filled"
+          severity={submitState.sucess ? "success" : "error"}
+          onClose={handleClose}
+        >
+          {submitState.sucess
+            ? "Marina successfully created, you will be redirected."
+            : submitState.error}
+        </Alert>
+      </Snackbar>
     </>
   );
 }
