@@ -19,7 +19,5 @@ export const schema = gql`
 export const resolver: CityResolvers = {
   id: ({ code }) => toGlobalId(TYPE, code),
   country: ({ countryCode }) =>
-    getCountryBase()
-      .where("code", countryCode)
-      .first(),
+    getCountryBase().where("code", countryCode).first(),
 };

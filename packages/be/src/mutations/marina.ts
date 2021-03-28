@@ -2,6 +2,8 @@ import { ApolloError } from "apollo-server-koa";
 import { fromGlobalId } from "graphql-relay";
 import * as Yup from "yup";
 
+import { getMarinaBase, saveMarinaToDb } from "../db/marina";
+
 import { ApolloContext } from "../types/ApolloContext";
 import { MutationAddMarinaArgs } from "../types/GeneratedGql";
 
@@ -28,7 +30,24 @@ export const addMarina = async (
   { input }: MutationAddMarinaArgs,
   ctx: ApolloContext
 ) => {
-  schemaValidation.isValid(input).then((result) => {
-    console.log(result);
-  });
+  return schemaValidation
+    .isValid(input)
+    .then((isValid) => {
+      if (isValid) {
+        return saveMarinaToDb(input);
+      } else {
+        // return ApolloError (?)
+      }
+    })
+    .then(async (result) => {
+      if (result && result.length) {
+        const marina = await getMarinaBase()
+          .where({ id: result[0] })
+          .first();
+        return { marina };
+      }
+    })
+    .catch((e) => {
+      console.log("ERROR", e);
+    });
 };

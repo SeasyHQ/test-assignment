@@ -11,7 +11,7 @@ import * as marina from "./schemas/marina";
 import * as photo from "./schemas/photo";
 import * as amenity from "./schemas/amenity";
 import * as country from "./schemas/country";
-// import * as mutation from "./mutation";
+
 import * as node from "./query/node";
 
 const typeDefs: DocumentNode[] = [

@@ -5,6 +5,7 @@ import { MarinaResolvers } from "../types/GeneratedGql";
 import { getCityBase } from "../db/city";
 import { getCountryBase } from "../db/country";
 import { getAmenityByMarinaId } from "../db/amenity";
+import { getPhotoBase } from "../db/photo";
 
 export const TYPE = "Marina";
 
@@ -46,4 +47,5 @@ export const resolver: MarinaResolvers = {
       .where({ code: countryCode })
       .first(),
   amenities: ({ id }) => getAmenityByMarinaId(id),
+  photo: ({photoId}) => photoId ? getPhotoBase().where({id: photoId}).first() : null
 };
