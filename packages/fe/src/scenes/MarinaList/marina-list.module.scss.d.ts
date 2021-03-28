@@ -1,3 +1,4 @@
+export const amenities: string;
 export const cardImage: string;
 export const count: string;
 export const h1: string;
@@ -7,4 +8,5 @@ export const marinaCard: string;
 export const marinas: string;
 export const name: string;
 export const price: string;
+export const relativeWrapper: string;
 export const title: string;

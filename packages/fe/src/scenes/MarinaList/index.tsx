@@ -7,6 +7,7 @@ import { Routes } from "routes";
 import { MarinaListQuery } from "__generated__/MarinaListQuery.graphql";
 
 import styles from "./marina-list.module.scss";
+import Amenity from "components/amenity";
 
 export default function MarinaList() {
   const { data } = useQuery<MarinaListQuery>(
@@ -26,6 +27,10 @@ export default function MarinaList() {
             code
           }
           country {
+            id
+            code
+          }
+          amenities {
             id
             code
           }
@@ -50,14 +55,26 @@ export default function MarinaList() {
       <div className={styles.marinas}>
         {data?.marinas?.map((marina, index) => (
           <div key={marina.id} className={styles.marinaCard}>
-            <img
-              alt={marina.name}
-              src={
-                marina.photo?.url ||
-                `https://picsum.photos/290/180.webp?random=${index}`
-              }
-              className={styles.cardImage}
-            />
+            <div className={styles.relativeWrapper}>
+              <img
+                alt={marina.name}
+                src={
+                  marina.photo?.url ||
+                  `https://picsum.photos/290/180.webp?random=${index}`
+                }
+                className={styles.cardImage}
+              />
+              <div className={styles.amenities}>
+                {marina.amenities
+                  ? marina.amenities.map((amenity) => (
+                      <Amenity
+                        isInline={false}
+                        amenity={amenity!}
+                      />
+                    ))
+                  : null}
+              </div>
+            </div>
             <div className={styles.locationRow}>
               <span className={styles.location}>{marina.city?.code}</span> |{" "}
               <span className={styles.location}>{marina.country?.code}</span>
@@ -68,9 +85,7 @@ export default function MarinaList() {
             >
               {marina.name}
             </Link>
-            <div className={styles.price}>
-              76&euro; per night
-            </div>
+            <div className={styles.price}>76&euro; per night</div>
           </div>
         ))}
       </div>

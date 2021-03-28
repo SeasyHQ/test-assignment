@@ -1,0 +1,163 @@
+@import "sass/constants.scss";
+
+.wrapper {
+  width: 100%;
+  position: relative;
+}
+
+.imageWrapper {
+  position: relative;
+}
+
+.image {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+}
+
+.info {
+  position: absolute;
+  top: 300px;
+  background-color: $white;
+
+  border: 1px solid $lightgrey;
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+
+  @media #{$md} {
+    position: static;
+    margin-top: 30px;
+
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+  }
+}
+
+.sections {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-direction: column;
+
+  @media #{$md} {
+    flex-direction: row;
+  }
+}
+
+.section1 {
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  @media #{$md} {
+    width: auto;
+
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+  }
+}
+
+.type {
+  order: 2;
+
+  font-size: 1rem;
+  color: $blue;
+
+  @media #{$md} {
+    order: 1;
+  }
+}
+
+.name {
+  order: 1;
+
+  margin: 10px 0 0;
+  padding: 0;
+
+  font-weight: 600;
+  font-size: 2.5rem;
+  line-height: 1;
+
+  @media #{$md} {
+    order: 2;
+  }
+}
+
+.location {
+  order: 3;
+
+  margin: 10px 0 0;
+
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.section2 {
+  width: 100%;
+
+  display: flex;
+  margin-top: 20px;
+
+  @media #{$md} {
+    margin-top: 0;
+    width: auto;
+  }
+}
+
+.section3 {
+  @media #{$md} {
+    margin-right: 30px;
+  }
+}
+
+.section4,
+.section3 {
+  width: 50%;
+
+  display: flex;
+  flex-direction: column;
+
+  @media #{$md} {
+    width: 170px;
+  }
+}
+
+.label {
+  color: $lightgrey;
+  font-weight: 500;
+
+  &:not(:first-child) {
+    margin-top: 20px;
+  }
+}
+
+.value {
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.about {
+  margin-top: 40px;
+
+  font-weight: 300;
+  line-height: 1.75;
+}
+
+.amenities {
+  margin-top: 10px;
+}
+
+.amenitiesTitle {
+  margin: 0 0 10px;
+  padding: 0;
+
+  font-weight: 600;
+  font-size: 1.3rem;
+}

@@ -11,18 +11,19 @@ import {
   Snackbar,
 } from "@material-ui/core";
 import {Alert} from "@material-ui/lab";
-
+import { useHistory } from "react-router";
+import { GraphQLError } from "graphql";
 import { useMutation, useQuery } from "relay-hooks";
 import graphql from "babel-plugin-relay/macro";
 import { Add, CheckCircleOutlineOutlined } from "@material-ui/icons";
 import "mapbox-gl/dist/mapbox-gl.css";
+
+import { Routes } from "routes";
+
 import { AddMarinaAmenitiesQuery } from "__generated__/AddMarinaAmenitiesQuery.graphql";
+import { AddMarinaMutation } from "__generated__/AddMarinaMutation.graphql";
 
 import styles from "./add-marina.module.scss";
-import { AddMarinaMutation } from "__generated__/AddMarinaMutation.graphql";
-import { useHistory } from "react-router";
-import { Routes } from "routes";
-import { GraphQLError } from "graphql";
 
 const MARINA_KREMIK_LON_LAT: [number, number] = [15.9379, 43.5696];
 const MAPBOX_WEBSERVICES_URL = "https://api.mapbox.com";

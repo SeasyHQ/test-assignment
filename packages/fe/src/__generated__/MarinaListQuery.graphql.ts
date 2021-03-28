@@ -22,6 +22,10 @@ export type MarinaListQueryResponse = {
             readonly id: string;
             readonly code: string;
         } | null;
+        readonly amenities: ReadonlyArray<{
+            readonly id: string;
+            readonly code: string;
+        } | null> | null;
     }> | null;
 };
 export type MarinaListQuery = {
@@ -50,6 +54,10 @@ query MarinaListQuery {
       id
       code
     }
+    amenities {
+      id
+      code
+    }
   }
 }
 */
@@ -70,6 +78,10 @@ v1 = {
   "storageKey": null
 },
 v2 = [
+  (v0/*: any*/),
+  (v1/*: any*/)
+],
+v3 = [
   {
     "alias": null,
     "args": null,
@@ -139,10 +151,17 @@ v2 = [
         "kind": "LinkedField",
         "name": "country",
         "plural": false,
-        "selections": [
-          (v0/*: any*/),
-          (v1/*: any*/)
-        ],
+        "selections": (v2/*: any*/),
+        "storageKey": null
+      },
+      {
+        "alias": null,
+        "args": null,
+        "concreteType": "Amenity",
+        "kind": "LinkedField",
+        "name": "amenities",
+        "plural": true,
+        "selections": (v2/*: any*/),
         "storageKey": null
       }
     ],
@@ -155,7 +174,7 @@ return {
     "kind": "Fragment",
     "metadata": null,
     "name": "MarinaListQuery",
-    "selections": (v2/*: any*/),
+    "selections": (v3/*: any*/),
     "type": "Query",
     "abstractKey": null
   },
@@ -164,17 +183,17 @@ return {
     "argumentDefinitions": [],
     "kind": "Operation",
     "name": "MarinaListQuery",
-    "selections": (v2/*: any*/)
+    "selections": (v3/*: any*/)
   },
   "params": {
-    "cacheID": "842950e155d323021942663a1f09c135",
+    "cacheID": "a5ca6407af3aa3f3fab2c191da2b56a3",
     "id": null,
     "metadata": {},
     "name": "MarinaListQuery",
     "operationKind": "query",
-    "text": "query MarinaListQuery {\n  marinas {\n    id\n    name\n    photo {\n      id\n      url\n    }\n    city {\n      id\n      lat\n      lon\n      code\n    }\n    country {\n      id\n      code\n    }\n  }\n}\n"
+    "text": "query MarinaListQuery {\n  marinas {\n    id\n    name\n    photo {\n      id\n      url\n    }\n    city {\n      id\n      lat\n      lon\n      code\n    }\n    country {\n      id\n      code\n    }\n    amenities {\n      id\n      code\n    }\n  }\n}\n"
   }
 };
 })();
-(node as any).hash = '181d6ffd28367b54abce4a7dad70d815';
+(node as any).hash = '12f5bb457250f69fbd705114da4eb754';
 export default node;
