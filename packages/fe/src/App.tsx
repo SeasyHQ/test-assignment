@@ -2,6 +2,7 @@ import React from "react";
 import { Route, Switch } from "react-router-dom";
 
 import { Routes } from "routes";
+import Header from "components/header";
 
 import MarinaList from "scenes/MarinaList";
 import MarinaDetail from "scenes/MarinaDetail";
@@ -13,6 +14,7 @@ import styles from './App.module.scss';
 function App() {
   return (
     <div className={styles.wrapper}>
+      <Header />
       <Switch>
         <Route path={Routes.MARINA_LIST} exact component={MarinaList} />
         <Route path={Routes.MARINA_DETAIL} exact component={MarinaDetail} />
