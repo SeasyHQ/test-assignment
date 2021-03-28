@@ -39,7 +39,7 @@ export const addMarina = async (
         throw new ApolloError("Invalid input arguments.");
       }
     })
-    .then(async (result) => {
+    .then(async ([result]) => {
       if (result && result.length) {
         const marina = await getMarinaBase()
           .where({ id: result[0] })

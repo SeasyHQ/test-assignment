@@ -18,7 +18,7 @@ const kxConfig = {
 const kx = Knex(knexStringcase(kxConfig));
 
 kx.on("query-response", res => {
-  console.log(res);
+  // console.log(res);
 });
 
 export default kx;
