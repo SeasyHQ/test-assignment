@@ -83,7 +83,7 @@ export default function MarinaDetail() {
       {marina.amenities ? (<div className={styles.amenities}>
         <h2 className={styles.amenitiesTitle}>Amenities</h2>
         {marina.amenities.map(amenity => (
-        <Amenity amenity={amenity!} isInline={true} />
+        <Amenity key={amenity?.id} amenity={amenity!} isInline={true} />
       ))}</div>) : null}
 
 

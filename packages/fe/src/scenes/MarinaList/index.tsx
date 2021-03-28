@@ -64,16 +64,18 @@ export default function MarinaList() {
                 }
                 className={styles.cardImage}
               />
-              <div className={styles.amenities}>
-                {marina.amenities
-                  ? marina.amenities.map((amenity) => (
-                      <Amenity
-                        isInline={false}
-                        amenity={amenity!}
-                      />
-                    ))
-                  : null}
-              </div>
+
+              {marina.amenities ? (
+                <div className={styles.amenities}>
+                  {marina.amenities.map((amenity) => (
+                    <Amenity
+                      key={amenity?.id}
+                      isInline={false}
+                      amenity={amenity!}
+                    />
+                  ))}
+                </div>
+              ) : null}
             </div>
             <div className={styles.locationRow}>
               <span className={styles.location}>{marina.city?.code}</span> |{" "}
